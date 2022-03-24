@@ -1,17 +1,28 @@
 mod generator;
 
 use std::io::{stdin, stdout, Write};
+
 use termion::event::Key;
 use termion::input::TermRead;
 use termion::raw::IntoRawMode;
+use termion::screen::*;
 
 fn main() {
-    let stdin = stdin();
-    let mut stdout = stdout().into_raw_mode().unwrap();
+    let mut alt_screen = AlternateScreen::from(stdout().into_raw_mode().unwrap());
 
-    for c in stdin.keys() {
+    write!(
+        alt_screen,
+        "{}{}Hello, World!",
+        termion::clear::All,
+        termion::cursor::Goto(1, 1)
+    )
+    .unwrap();
+
+    alt_screen.flush().unwrap();
+
+    for c in stdin().keys() {
         write!(
-            stdout,
+            stdout(),
             "{}{}",
             termion::cursor::Goto(1, 1),
             termion::clear::CurrentLine
@@ -23,8 +34,5 @@ fn main() {
             Key::Backspace => println!("BS"),
             _ => {}
         };
-        stdout.flush().unwrap();
     }
-
-    // let text = generator::generate_text(1);
 }
