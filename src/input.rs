@@ -36,9 +36,10 @@ impl Attempt {
 pub fn handle_input(keys: Keys<Stdin>, attempt: &mut Attempt, screen: &mut RawScreen) {
     for c in keys {
         match c.unwrap() {
+            // To be able to actually stop the program by the normal SIGINT (Ctrl+C)
             Key::Ctrl('c') => break,
             Key::Backspace => {
-                print!("\x08");
+                write!(*screen, "\x08").unwrap();
                 // Backspace won't get rid of the symbol, so we need to manually
                 // clear everything after the cursor
                 write!(*screen, "{}", termion::clear::AfterCursor,).unwrap();
@@ -50,7 +51,7 @@ pub fn handle_input(keys: Keys<Stdin>, attempt: &mut Attempt, screen: &mut RawSc
             }
             Key::Char(c) => {
                 if c.is_alphanumeric() {
-                    print!("{}", c);
+                    write!(*screen, "{}", c);
                 }
                 (*attempt).handle_key(c);
             }
