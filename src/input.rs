@@ -58,5 +58,8 @@ pub fn handle_input(keys: Keys<Stdin>, attempt: &mut Attempt, screen: &mut RawSc
             _ => {}
         }
         stdout().flush().unwrap();
+        if *attempt.input_text == *attempt.text {
+            break;
+        }
     }
 }
