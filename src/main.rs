@@ -2,7 +2,10 @@ mod generator;
 mod input;
 mod tui;
 
-use std::io::{stdin, stdout};
+use std::{
+    io::{stdin, stdout},
+    time::{Duration, Instant},
+};
 
 use termion::input::TermRead;
 use termion::raw::IntoRawMode;
@@ -16,19 +19,19 @@ fn main() {
         tui::reset(&mut alt_screen);
         let text = generator::generate_text(0);
         attempt = input::Attempt::new_attempt(&text);
-    
         tui::write_sample_text(text);
-    
-        input::handle_printable_input(stdin().keys(), &mut attempt, &mut alt_screen);
 
+        let begin_time = Instant::now();
+        input::handle_printable_input(stdin().keys(), &mut attempt, &mut alt_screen);
+        let duration = begin_time.elapsed();
+
+        tui::show_result(&mut alt_screen, duration.as_millis(), 5);
         tui::try_again_prompt(&mut alt_screen);
         let answer = input::handle_y_n_input(stdin().keys());
-        
         if answer {
             continue;
         } else {
             break;
         }
     }
-
 }
