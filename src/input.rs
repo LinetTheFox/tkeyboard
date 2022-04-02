@@ -33,7 +33,7 @@ impl Attempt {
     }
 }
 
-pub fn handle_input(keys: Keys<Stdin>, attempt: &mut Attempt, screen: &mut RawScreen) {
+pub fn handle_printable_input(keys: Keys<Stdin>, attempt: &mut Attempt, screen: &mut RawScreen) {
     for c in keys {
         match c.unwrap() {
             // To be able to actually stop the program by the normal SIGINT (Ctrl+C)
@@ -51,7 +51,7 @@ pub fn handle_input(keys: Keys<Stdin>, attempt: &mut Attempt, screen: &mut RawSc
             }
             Key::Char(c) => {
                 if c.is_alphanumeric() {
-                    write!(*screen, "{}", c);
+                    write!(*screen, "{}", c).unwrap();
                 }
                 (*attempt).handle_key(c);
             }
@@ -62,4 +62,23 @@ pub fn handle_input(keys: Keys<Stdin>, attempt: &mut Attempt, screen: &mut RawSc
             break;
         }
     }
+}
+
+pub fn handle_y_n_input(keys: Keys<Stdin>) -> bool {
+    for c in keys {
+        match c.unwrap() {
+            Key::Char('y') => {
+                return true;
+            }
+            Key::Char('n') => {
+                return false;
+            }
+            Key::Ctrl('c') => {
+                // Interpret SIGINT as "no"
+                return false;
+            }
+            _ => {}
+        }
+    }
+    unreachable!("Supposed to loop forever until getting 'y', 'n' or 'SIGINT'");
 }

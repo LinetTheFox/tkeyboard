@@ -28,3 +28,15 @@ pub fn write_sample_text(text: String) {
         termion::cursor::Goto(1, 3)
     );
 }
+
+pub fn try_again_prompt(screen: &mut RawScreen) {
+    let prompt = "Do you want to try again? (y/n): ";
+    write!(
+        *screen,
+        "{}{} ",
+        termion::cursor::Goto(1, 8),
+        prompt,
+    )
+    .unwrap();
+    screen.flush().unwrap();
+}
