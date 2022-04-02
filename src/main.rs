@@ -10,7 +10,7 @@ use termion::screen::*;
 
 fn main() {
     let mut alt_screen = AlternateScreen::from(stdout().into_raw_mode().unwrap());
-    let attempt: input::Attempt;
+    let mut attempt: input::Attempt;
 
     tui::reset(&mut alt_screen);
     let text = generator::generate_text(0);
@@ -18,5 +18,5 @@ fn main() {
 
     tui::write_sample_text(text);
 
-    input::handle_input(stdin().keys(), &attempt, &mut alt_screen);
+    input::handle_input(stdin().keys(), &mut attempt, &mut alt_screen);
 }

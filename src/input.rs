@@ -22,14 +22,18 @@ impl Attempt {
         }
     }
 
-    pub fn handle_key(self, key: Key) {
-        if key == Key::Backspace {
+    pub fn handle_key(&mut self, c: char) {
+        if c == '\x08' {
+            self.input_text.pop();
         } else {
+            // Any other printable character from
+            // c.is_alphanumeric()
+            self.input_text.push(c);
         }
     }
 }
 
-pub fn handle_input(keys: Keys<Stdin>, attempt: &Attempt, screen: &mut RawScreen) {
+pub fn handle_input(keys: Keys<Stdin>, attempt: &mut Attempt, screen: &mut RawScreen) {
     for c in keys {
         match c.unwrap() {
             Key::Ctrl('c') => break,
@@ -38,11 +42,17 @@ pub fn handle_input(keys: Keys<Stdin>, attempt: &Attempt, screen: &mut RawScreen
                 // Backspace won't get rid of the symbol, so we need to manually
                 // clear everything after the cursor
                 write!(*screen, "{}", termion::clear::AfterCursor,).unwrap();
+                (*attempt).handle_key('\x08');
+            }
+            Key::Char(' ') => {
+                write!(*screen, " ").unwrap();
+                (*attempt).handle_key(' ');
             }
             Key::Char(c) => {
                 if c.is_alphanumeric() {
                     print!("{}", c);
                 }
+                (*attempt).handle_key(c);
             }
             _ => {}
         }
