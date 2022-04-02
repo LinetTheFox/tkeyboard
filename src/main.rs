@@ -4,7 +4,7 @@ mod tui;
 
 use std::{
     io::{stdin, stdout},
-    time::{Duration, Instant},
+    time::Instant,
 };
 
 use termion::input::TermRead;
