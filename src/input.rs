@@ -22,6 +22,10 @@ impl Attempt {
         }
     }
 
+    pub fn get_text(self) -> String {
+        self.text
+    }
+
     pub fn handle_key(&mut self, c: char) {
         if c == '\x08' {
             self.input_text.pop();

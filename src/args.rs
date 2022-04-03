@@ -17,7 +17,6 @@ pub fn parse_args(settings: &mut Settings) {
         let num = num_str.parse::<usize>().unwrap_or_else(|_| {
             panic!("Value for -w key is not a valid number!")
         });
-        println!("Setting the word count to {}", num);
         settings.word_count = num;
     }
 }

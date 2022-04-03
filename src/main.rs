@@ -31,7 +31,12 @@ fn main() {
         input::handle_printable_input(stdin().keys(), &mut attempt, &mut alt_screen);
         let duration = begin_time.elapsed();
 
-        tui::show_result(&mut alt_screen, duration.as_millis(), 5);
+        tui::show_result(
+            &mut alt_screen,
+            duration.as_millis(),
+            settings.word_count as u16,
+            attempt.get_text().len(),
+        );
         tui::try_again_prompt(&mut alt_screen);
         let answer = input::handle_y_n_input(stdin().keys());
         if answer {
