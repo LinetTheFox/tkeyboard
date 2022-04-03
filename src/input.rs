@@ -1,5 +1,7 @@
 use std::io::{stdout, Stdin, Stdout, Write};
 
+use termion::color;
+use termion::cursor::DetectCursorPos;
 use termion::event::Key;
 use termion::input::Keys;
 use termion::raw::RawTerminal;
@@ -24,6 +26,10 @@ impl Attempt {
 
     pub fn get_text(self) -> String {
         self.text
+    }
+
+    pub fn is_correct_prefix(&self) -> bool {
+        self.text.starts_with(&self.input_text)
     }
 
     pub fn handle_key(&mut self, c: char) {
@@ -61,6 +67,33 @@ pub fn handle_printable_input(keys: Keys<Stdin>, attempt: &mut Attempt, screen: 
             }
             _ => {}
         }
+        let is_correct = attempt.is_correct_prefix();
+        let cursor_pos = stdout().cursor_pos().unwrap();
+        if is_correct {
+            // Because color::{White, Red} are different
+            // structs, so cannot put them into write in
+            // the if block
+            write!(
+                *screen,
+                "{}{}{}{}",
+                termion::clear::CurrentLine,
+                termion::cursor::Goto(1, cursor_pos.1),
+                color::Fg(color::Reset),
+                (*attempt).input_text,
+            )
+            .unwrap();
+        } else {
+            write!(
+                *screen,
+                "{}{}{}{}",
+                termion::clear::CurrentLine,
+                termion::cursor::Goto(1, cursor_pos.1),
+                color::Fg(color::Red),
+                (*attempt).input_text,
+            )
+            .unwrap();
+        }
+
         stdout().flush().unwrap();
         if *attempt.input_text == *attempt.text {
             break;

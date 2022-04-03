@@ -7,10 +7,9 @@ mod tui;
 use crate::args::parse_args;
 use crate::settings::Settings;
 
-use std::{
-    io::{stdin, stdout},
-    time::Instant,
-};
+use std::io::{stdin, stdout};
+use std::time::Instant;
+
 use termion::input::TermRead;
 use termion::raw::IntoRawMode;
 use termion::screen::*;
