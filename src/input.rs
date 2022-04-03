@@ -47,7 +47,10 @@ pub fn handle_printable_input(keys: Keys<Stdin>, attempt: &mut Attempt, screen: 
     for c in keys {
         match c.unwrap() {
             // To be able to actually stop the program by the normal SIGINT (Ctrl+C)
-            Key::Ctrl('c') => break,
+            Key::Ctrl('c') => {
+                screen.suspend_raw_mode().unwrap();
+                std::process::exit(1);
+            }
             Key::Backspace => {
                 write!(*screen, "\x08").unwrap();
                 // Backspace won't get rid of the symbol, so we need to manually
@@ -101,7 +104,7 @@ pub fn handle_printable_input(keys: Keys<Stdin>, attempt: &mut Attempt, screen: 
     }
 }
 
-pub fn handle_y_n_input(keys: Keys<Stdin>) -> bool {
+pub fn handle_y_n_input(screen: &mut RawScreen, keys: Keys<Stdin>) -> bool {
     for c in keys {
         match c.unwrap() {
             Key::Char('y') => {
@@ -111,7 +114,7 @@ pub fn handle_y_n_input(keys: Keys<Stdin>) -> bool {
                 return false;
             }
             Key::Ctrl('c') => {
-                // Interpret SIGINT as "no"
+                // closes anyway if no
                 return false;
             }
             _ => {}

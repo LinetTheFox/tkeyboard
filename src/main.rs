@@ -37,7 +37,7 @@ fn main() {
             attempt.get_text().len(),
         );
         tui::try_again_prompt(&mut alt_screen);
-        let answer = input::handle_y_n_input(stdin().keys());
+        let answer = input::handle_y_n_input(&mut alt_screen, stdin().keys());
         if answer {
             continue;
         } else {
