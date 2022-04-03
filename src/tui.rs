@@ -37,7 +37,7 @@ pub fn show_result(screen: &mut RawScreen, millis: u128, word_count: u16, char_c
     let char_speed = (char_count as f64) / (millis as f64) * 1000.0;
     write!(
         *screen,
-        "{}Typed the text in {}.{}",
+        "{}Typed the text in {}.{} seconds",
         termion::cursor::Goto(1, 8),
         seconds,
         rem_millis
@@ -49,7 +49,8 @@ pub fn show_result(screen: &mut RawScreen, millis: u128, word_count: u16, char_c
         termion::cursor::Goto(1, 9),
         type_speed,
         char_speed,
-    ).unwrap();
+    )
+    .unwrap();
     screen.flush().unwrap();
 }
 

@@ -1,6 +1,6 @@
 use crate::settings::Settings;
 
-use clargs::{parse, ParsingConfig };
+use clargs::{parse, ParsingConfig};
 
 pub fn parse_args(settings: &mut Settings) {
     let mut cli_parse_config = ParsingConfig::new();
@@ -14,9 +14,9 @@ pub fn parse_args(settings: &mut Settings) {
     }
     if args.get_param("w").is_some() {
         let num_str = args.get_param("w").unwrap();
-        let num = num_str.parse::<usize>().unwrap_or_else(|_| {
-            panic!("Value for -w key is not a valid number!")
-        });
+        let num = num_str
+            .parse::<usize>()
+            .unwrap_or_else(|_| panic!("Value for -w key is not a valid number!"));
         settings.word_count = num;
     }
 }

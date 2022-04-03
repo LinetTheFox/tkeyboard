@@ -104,7 +104,7 @@ pub fn handle_printable_input(keys: Keys<Stdin>, attempt: &mut Attempt, screen: 
     }
 }
 
-pub fn handle_y_n_input(screen: &mut RawScreen, keys: Keys<Stdin>) -> bool {
+pub fn handle_y_n_input(keys: Keys<Stdin>) -> bool {
     for c in keys {
         match c.unwrap() {
             Key::Char('y') => {
