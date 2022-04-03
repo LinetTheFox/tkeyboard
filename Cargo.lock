@@ -15,6 +15,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
+name = "clargs"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "20fdfd8cf44298dd1fb6b33570900936cb2dacfe53054da74e5ab933e8cbbd2c"
+
+[[package]]
 name = "getrandom"
 version = "0.2.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -107,6 +113,7 @@ dependencies = [
 name = "tkeyboard"
 version = "0.1.0"
 dependencies = [
+ "clargs",
  "rand",
  "termion",
 ]

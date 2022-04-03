@@ -1,23 +1,29 @@
+mod args;
 mod generator;
 mod input;
+mod settings;
 mod tui;
+
+use crate::args::parse_args;
+use crate::settings::Settings;
 
 use std::{
     io::{stdin, stdout},
     time::Instant,
 };
-
 use termion::input::TermRead;
 use termion::raw::IntoRawMode;
 use termion::screen::*;
 
 fn main() {
+    let mut settings = Settings::default();
+    parse_args(&mut settings);
     let mut alt_screen = AlternateScreen::from(stdout().into_raw_mode().unwrap());
     let mut attempt: input::Attempt;
     let generator = generator::Generator::init("res/words_padded.txt");
     loop {
         tui::reset(&mut alt_screen);
-        let text = generator.generate(3u64);
+        let text = generator.generate(settings.word_count as u64);
         attempt = input::Attempt::new_attempt(&text);
         tui::write_sample_text(text);
 
