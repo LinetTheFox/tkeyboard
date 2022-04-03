@@ -1,3 +1,4 @@
+use dirs::home_dir;
 use std::fs::read_to_string;
 
 pub struct Generator {
@@ -7,8 +8,13 @@ pub struct Generator {
 }
 
 impl Generator {
-    pub fn init(file_path: &str) -> Generator {
-        let padded_words = read_to_string(file_path).unwrap();
+    pub fn init() -> Generator {
+        let home_dir_path = home_dir().unwrap();
+        let home_dir_string = home_dir_path.to_str().unwrap();
+        let mut file_path = String::from(home_dir_string);
+        file_path.push_str("/.config/tkeyboard/words_padded.txt");
+
+        let padded_words = read_to_string(String::from(file_path)).unwrap();
         let padded_words_size = padded_words.len();
         // including '\n' at the end
         let line_len = padded_words.chars().take_while(|c| *c != '\n').count() + 1;

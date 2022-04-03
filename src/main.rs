@@ -19,7 +19,7 @@ fn main() {
     parse_args(&mut settings);
     let mut alt_screen = AlternateScreen::from(stdout().into_raw_mode().unwrap());
     let mut attempt: input::Attempt;
-    let generator = generator::Generator::init("res/words_padded.txt");
+    let generator = generator::Generator::init();
     loop {
         tui::reset(&mut alt_screen);
         let text = generator.generate(settings.word_count as u64);
