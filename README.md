@@ -30,8 +30,9 @@ Run `make uninstall`.
 
 ## TODO
 
-- Check how it works for other OS-es as was made only for Linux
+- Check how it works for other OS-es as was made only for Linux (and tested on M1 Mac)
 - Find a dictionary and generation method that includes more short words, 
 as on practice the words/minute counter may show much slower results than
 usually, as the average length of words here is much longer.
+- A word by word test mode
 
