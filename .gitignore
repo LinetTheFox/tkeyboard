@@ -1,2 +1,4 @@
 /target
 res/words_padded.txt
+.idea/
+.vscode/
